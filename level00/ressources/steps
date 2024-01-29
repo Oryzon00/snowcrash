@@ -16,4 +16,8 @@ Apache/2.2.22 (Ubuntu)
 find / -user flag00 2>/dev/null
 -->	/usr/sbin/john
 	/rofs/usr/sbin/john
+
+    https://rot13.com/ rot11 sur la chaine cat /usr/sbin/john
+    -> cdiiddwpgswtgt
+    
 	
