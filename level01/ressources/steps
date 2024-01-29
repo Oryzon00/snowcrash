@@ -1,0 +1,11 @@
+ps -aux
+--> flag 11 process lua /home/user/level11/level11.lua
+
+id 
+--> uid=2001(level01) gid=2001(level01) groups=2001(level01),100(users)
+
+find / -user flag01 -name ".*" 2>/dev/null
+--> nothing
+
+find / -name "flag01" 2>/dev/null
+--> nothing
