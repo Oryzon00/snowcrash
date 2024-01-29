@@ -10,3 +10,9 @@ netstat -tulpn
 
 port 5151 is open it's weird so curl it
 curl localhost:5151
+
+
+find / -user flag00 2>/dev/null
+-->	/usr/sbin/john
+	/rofs/usr/sbin/john
+	
