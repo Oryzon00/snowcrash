@@ -1,11 +1,14 @@
 ```ssh level00@localhost -p 4243```
 
-
+adress of VM: 10.0.2.15
 
 Tools:
 - gdb
 - lecteur pcap (?)
-	cloudshark.org
+	cloudshark.org (network packet analyzer)
 - John (crack password)
 - script python
 - dcode.fr
+
+
+localhost:4242 -> {'ftpkg-srv'} 
