@@ -1,0 +1,9 @@
+FROM	kalilinux/kali-rolling
+
+RUN		apt-get update && \
+		apt-get install -y kali-linux-headless && \
+		apt-get install -y john john-data
+
+COPY	passwd		/home
+
+

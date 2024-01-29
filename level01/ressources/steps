@@ -9,3 +9,18 @@ find / -user flag01 -name ".*" 2>/dev/null
 
 find / -name "flag01" 2>/dev/null
 --> nothing
+
+find / -name "*.*cap" 2>/dev/null
+--> /usr/share/doc/w3m/ja/README.mailcap
+	/rofs/usr/share/doc/w3m/ja/README.mailcap
+
+scp -p 4243 level01@localhost://usr/share/doc/w3m/ja/README.mailcap ./
+
+/etc/shadow --> stores information about user passwords and enforces password policies
+/etc/passwd --> stores user account information
+
+cat /etc/passwd --> 42hDRfypTqqnw
+
+docker build -t john-the-reaper-img .
+
+docker run -it --name john-the-reaper john-the-reaper-img /bin/bash
