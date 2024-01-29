@@ -24,3 +24,7 @@ cat /etc/passwd --> 42hDRfypTqqnw
 docker build -t john-the-reaper-img .
 
 docker run -it --name john-the-reaper john-the-reaper-img /bin/bash
+
+john passwd
+
+john passwd --show
