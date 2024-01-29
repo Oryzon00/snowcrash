@@ -1,0 +1,11 @@
+```ssh level00@localhost -p 4243```
+
+
+
+Tools:
+- gdb
+- lecteur pcap (?)
+	cloudshark.org
+- John (crack password)
+- script python
+- dcode.fr
