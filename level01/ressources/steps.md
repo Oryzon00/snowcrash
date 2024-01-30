@@ -28,9 +28,7 @@ uid=2001(level01) gid=2001(level01) groups=2001(level01),100(users)
 /usr/share/doc/w3m/ja/README.mailcap
 /rofs/usr/share/doc/w3m/ja/README.mailcap
 ```
-```console
 
-```
 ```console
 ~$ scp -p 4243 level01@localhost://usr/share/doc/w3m/ja/README.mailcap ./
 ```
