@@ -2,8 +2,8 @@
 
 * List all port and their state on the machine
 
-```
-netstat -tulpn
+```console
+~$ netstat -tulpn
 -t : All TCP ports
 -u : All UDP ports
 -l : Display listening server sockets
@@ -12,22 +12,23 @@ netstat -tulpn
 ```
 
 * port 5151 is open it's weird so curl it
-```
-curl localhost:5151
+```console
+~$ curl localhost:5151
+Server is Apache/2.2.22 (Ubuntu)
 ```
 
-Server is Apache/2.2.22 (Ubuntu)
 
 ## Solutions
 
 * Find flag in file owned by flag00 user
-```
-find / -user flag00 2>/dev/null
+```console
+~$ find / -user flag00 2>/dev/null
+/usr/sbin/john
+/rofs/usr/sbin/john
 ```
 
 ```
-/usr/sbin/john
-/rofs/usr/sbin/john
+
 ```
 
 * Cracking password in file /usr/sbin/john
