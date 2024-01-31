@@ -19,4 +19,21 @@ for i in /opt/openarenaserver/* ; do
 done
 ```
 
-This script loop through all openarenaserver directory
+This script loop through all openarenaserver directory and execute each file
+in this directory, -x launch the script in debug mode and redirect output to 
+stderr
+
+ulimit limit restrict the time utilization of the the script to 5 seconds
+
+```console
+~$ echo 'getflag > /opt/openarenaserver/out' > /opt/openarenaserver/test.sh
+```
+
+wait until the cron job execute the process
+
+```console
+~$ cat /opt/openarenaserver/out
+```
+
+
+
