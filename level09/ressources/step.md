@@ -25,22 +25,32 @@ size_t main(int param_1,int param_2)
   local_14 = *(int *)(in_GS_OFFSET + 0x14);
   bVar2 = false;
   local_120 = 0xffffffff;
+
+  //Block debugger
   lVar3 = ptrace(PTRACE_TRACEME,0,1,0);
   if (lVar3 < 0) {
     puts("You should not reverse this");
     sVar4 = 1;
   }
   else {
+
+	//get LD_PRELOAD from env
     pcVar5 = getenv("LD_PRELOAD");
+	//if LD_PRELOAD is NULL
     if (pcVar5 == (char *)0x0) {
+		//open ld.so.preload
       iVar6 = open("/etc/ld.so.preload",0);
+	  //if open fail
       if (iVar6 < 1) {
+		//open /proc/self/maps
         iVar6 = syscall_open("/proc/self/maps",0);
+		// if open fail
         if (iVar6 == -1) {
           fwrite("/proc/self/maps is unaccessible, probably a LD_PRELOAD attempt exit..\n",1,0x46,
                  stderr);
           sVar4 = 1;
         }
+		// if open success
         else {
           do {
             do {
