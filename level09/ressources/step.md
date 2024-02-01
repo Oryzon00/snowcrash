@@ -111,7 +111,7 @@ code_r0x080489ca:
 When running with gdb we get
 
 ```console
-~$ You should not reverse this
+You should not reverse this
 ```
 
 This is caused by ptrace, it's an anti-debugger function more info [here](https://repository.root-me.org/Reverse%20Engineering/x86/Unix/FR%20-%20SSTIC%2006%20-%20Playing%20with%20ptrace.pdf)
