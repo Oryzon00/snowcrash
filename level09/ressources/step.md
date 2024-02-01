@@ -115,3 +115,22 @@ When running with gdb we get
 ```
 
 This is caused by ptrace, it's an anti-debugger function more info [here](https://repository.root-me.org/Reverse%20Engineering/x86/Unix/FR%20-%20SSTIC%2006%20-%20Playing%20with%20ptrace.pdf)
+
+
+```console
+level09@SnowCrash:~$ cat token < ./level09 | od -c
+0000000   f   4   k   m   m   6   p   |   = 202 177   p 202   n 203 202
+0000020   D   B 203   D   u   { 177 214 211  \n
+0000032
+```
+
+`f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211`
+`f 4 k m m 6 p | = 74 49 p 74 n 75 74 D B 75 D u { 49 86 83`
+`f 4 k m m 6 p | = 65 39 p 62 n 61 59 D B 57 D u { 27 63 59`
+
+
+
+Replace X by character value
+```
+f3iji1ju5XXeXaXX41X1afXXX
+```
