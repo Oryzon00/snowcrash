@@ -61,7 +61,6 @@ int main(int argc,char **argv,char **envp)
   return sVar2;
 }
 ```
-
 `level08` seems to be an executable that open and then reads the content of the file whose
 name is passed as a parameter
 
