@@ -272,4 +272,21 @@ z{|}~�������������������������
 ```console
 level09@SnowCrash:~$ ./level09 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | cat -e
 z{|}~^?M-^@M-^AM-^BM-^CM-^DM-^EM-^FM-^GM-^HM-^IM-^JM-^KM-^LM-^MM-^NM-^OM-^PM-^QM-^RM-^SM-^TM-^UM-^VM-^WM-^XM-^YM-^ZM-^[M-^\$
+
+```console
+level09@SnowCrash:~$ cat token < ./level09 | od -c
+0000000   f   4   k   m   m   6   p   |   = 202 177   p 202   n 203 202
+0000020   D   B 203   D   u   { 177 214 211  \n
+0000032
+```
+
+`f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211`
+`f 4 k m m 6 p | = 74 49 p 74 n 75 74 D B 75 D u { 49 86 83`
+`f 4 k m m 6 p | = 65 39 p 62 n 61 59 D B 57 D u { 27 63 59`
+
+
+
+Replace X by character value
+```
+f3iji1ju5XXeXaXX41X1afXXX
 ```
