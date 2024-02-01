@@ -1,2 +1,0 @@
-find ./bin . * 2>/dev/null | grep level
-var/lib/update-rc.d/level10_start

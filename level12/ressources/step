@@ -1,2 +1,0 @@
-find ./bin . * 2>/dev/null
-var/www/level12
