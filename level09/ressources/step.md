@@ -3,108 +3,241 @@
 We have an executable, so we decompile it using ghidra
 
 ```c
+char * afterSubstr(char *param_1,int param_2)
+
+{
+  bool bVar1;
+  int local_10;
+  char *local_8;
+  
+  bVar1 = false;
+  for (local_8 = param_1; *local_8 != '\0'; local_8 = local_8 + 1) {
+    bVar1 = true;
+    for (local_10 = 0; (bVar1 && (*(char *)(local_10 + param_2) != '\0')); local_10 = local_10 + 1)
+    {
+      if (*(char *)(local_10 + param_2) != local_8[local_10]) {
+        bVar1 = false;
+      }
+    }
+    if (bVar1) break;
+  }
+  if (bVar1) {
+    local_8 = local_8 + local_10;
+  }
+  else {
+    local_8 = (char *)0x0;
+  }
+  return local_8;
+}
 
 
-size_t main(int param_1,int param_2)
+undefined4 isLib(undefined4 param_1,undefined4 param_2)
+
+{
+  bool bVar1;
+  char *pcVar2;
+  undefined4 uVar3;
+  int local_10;
+  char *local_8;
+  
+  pcVar2 = (char *)afterSubstr(param_1,param_2);
+  if (pcVar2 == (char *)0x0) {
+    uVar3 = 0;
+  }
+  // parse memory address ex: 08048000-08050000
+  else if (*pcVar2 == '-') {
+    bVar1 = false;
+    //('/' < *local_8 && (*local_8 < ':') --> check if char is 0-9
+    while ((local_8 = pcVar2 + 1, '/' < *local_8 && (*local_8 < ':'))) {
+      bVar1 = true;
+      pcVar2 = local_8;
+    }
+    if ((bVar1) && (*local_8 == '.')) {
+      bVar1 = false;
+      for (local_8 = pcVar2 + 2; ('/' < *local_8 && (*local_8 < ':')); local_8 = local_8 + 1) {
+        bVar1 = true;
+      }
+      if (bVar1) {
+        for (local_10 = 0; (&DAT_08048c99)[local_10] != '\0'; local_10 = local_10 + 1) {
+          if ((&DAT_08048c99)[local_10] != local_8[local_10]) {
+            return 0;
+          }
+        }
+        uVar3 = 1;
+      }
+      else {
+        uVar3 = 0;
+      }
+    }
+    else {
+      uVar3 = 0;
+    }
+  }
+  else {
+    uVar3 = 0;
+  }
+  return uVar3;
+}
+
+size_t main(int argc,int argv)
 {
   char cVar1;
   bool bVar2;
   long lVar3;
-  size_t sVar4;
+  size_t ret_fgets;
   char *pcVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
+  int fd_maps;
+  int ret_isLib;
+  uint it_decr;
   int in_GS_OFFSET;
-  byte bVar9;
-  uint local_120;
-  undefined local_114 [256];
+  byte byte_zero;
+  uint it_incr;
+  undefined buffer_fgets [256];
   int local_14;
 
-  bVar9 = 0;
+  byte_zero = 0;
   local_14 = *(int *)(in_GS_OFFSET + 0x14);
   bVar2 = false;
-  local_120 = 0xffffffff;
+  it_incr = 0xffffffff;
 
   //Block debugger
   lVar3 = ptrace(PTRACE_TRACEME,0,1,0);
   if (lVar3 < 0) {
     puts("You should not reverse this");
-    sVar4 = 1;
+    ret_fgets = 1;
   }
+
+  // if no debugger
   else {
 
-	//get LD_PRELOAD from env
+	//get LD_PRELOAD from env --> no
     pcVar5 = getenv("LD_PRELOAD");
-	//if LD_PRELOAD is NULL
+
+	//if LD_PRELOAD is NULL --> no
     if (pcVar5 == (char *)0x0) {
-		//open ld.so.preload
-      iVar6 = open("/etc/ld.so.preload",0);
-	  //if open fail
-      if (iVar6 < 1) {
-		//open /proc/self/maps
-        iVar6 = syscall_open("/proc/self/maps",0);
-		// if open fail
-        if (iVar6 == -1) {
+  
+		//open ld.so.preload --> no
+      fd_maps = open("/etc/ld.so.preload",0);
+  
+	  //if open("/etc/ld.so.preload",0) FAILURE
+      if (fd_maps < 1) {
+    
+		//open /proc/self/maps --> yes
+        fd_maps = syscall_open("/proc/self/maps",0);
+  
+		// if open /proc/self/maps FAILURE
+        if (fd_maps == -1) {
           fwrite("/proc/self/maps is unaccessible, probably a LD_PRELOAD attempt exit..\n",1,0x46,
                  stderr);
-          sVar4 = 1;
+          ret_fgets = 1;
         }
-		// if open success
+  
+		// if open /proc/self/maps SUCCESS
         else {
+    
           do {
+            
             do {
+              
+              // loop read 256 char until ret_isLib is TRUE
               while( true ) {
-                sVar4 = syscall_gets(local_114,0x100,iVar6);
-                if (sVar4 == 0) goto LAB_08048a77;
-                iVar7 = isLib(local_114,&DAT_08048c2b);
-                if (iVar7 == 0) break;
+                ret_fgets = syscall_gets(buffer_fgets, 256, fd_maps); // read first 256 char of file /proc/self/maps in buffer_fgets
+                // si fgets fail -> goto ?
+                if (ret_fgets == 0) goto GO_TO_STOP;
+                ret_isLib = isLib(buffer_fgets,&DAT_08048c2b);
+                if (ret_isLib == 0) break;
                 bVar2 = true;
               }
+          
             } while (!bVar2);
-            iVar7 = isLib(local_114,&DAT_08048c30);
-            if (iVar7 != 0) {
-              if (param_1 == 2) goto LAB_08048996;
-              sVar4 = fwrite("You need to provied only one arg.\n",1,0x22,stderr);
-              goto LAB_08048a77;
+
+            ret_isLib = isLib(buffer_fgets,&DAT_08048c30);
+
+            //check argc == 2
+            if (ret_isLib != 0) {
+              if (argc == 2) goto GO_TO_LOGIC;
+              ret_fgets = fwrite("You need to provied only one arg.\n",1,0x22,stderr);
+              goto GO_TO_STOP;
             }
-            iVar7 = afterSubstr(local_114,"00000000 00:00 0");
-          } while (iVar7 != 0);
-          sVar4 = fwrite("LD_PRELOAD detected through memory maps exit ..\n",1,0x30,stderr);
+
+            // try to find anonymous memory segment (like stack of heap)
+            ret_isLib = afterSubstr(buffer_fgets,"00000000 00:00 0");
+
+            //loop stops when find or do not find "00000000 00:00 0" ??
+          } while (ret_isLib != 0);
+  
+          ret_fgets = fwrite("LD_PRELOAD detected through memory maps exit ..\n",1,0x30,stderr);
         }
+
       }
+
+      // if open("/etc/ld.so.preload",0) SUCCESS
       else {
         fwrite("Injection Linked lib detected exit..\n",1,0x25,stderr);
-        sVar4 = 1;
+        ret_fgets = 1;
       }
+
     }
+
+    //if LD_PRELOAD (from env) is NOT NULL 
     else {
       fwrite("Injection Linked lib detected exit..\n",1,0x25,stderr);
-      sVar4 = 1;
+      ret_fgets = 1;
     }
+
   }
-LAB_08048a77:
+
+//int local_14
+//int in_GS_OFFSET;
+
+//uint it_decr;
+//uint it_incr
+//it_incr = 0xffffffff;
+
+//char *str;
+
+//byte byte_zero;
+// byte_zero = 0;
+
+//char cVar1;
+GO_TO_STOP:
   if (local_14 == *(int *)(in_GS_OFFSET + 0x14)) {
-    return sVar4;
+    return ret_fgets;
   }
                     // WARNING: Subroutine does not return
   __stack_chk_fail();
-LAB_08048996:
-  local_120 = local_120 + 1;
-  uVar8 = 0xffffffff;
-  pcVar5 = *(char **)(param_2 + 4);
+
+GO_TO_LOGIC:
+  //it_incr = 0
+  it_incr = it_incr + 1;
+  it_decr = 0xffffffff; //U_INT_MAX 
+  str = *(char **)(argv + 4);
+
+  //DO WHILE USELESS
+  // IT DECREC -= LEN ARGV
   do {
-    if (uVar8 == 0) break;
-    uVar8 = uVar8 - 1;
-    cVar1 = *pcVar5;
-    pcVar5 = pcVar5 + (uint)bVar9 * -2 + 1;
-  } while (cVar1 != '\0');
-  if (~uVar8 - 1 <= local_120) goto code_r0x080489ca;
-  putchar((int)*(char *)(local_120 + *(int *)(param_2 + 4)) + local_120);
-  goto LAB_08048996;
-code_r0x080489ca:
-  sVar4 = fputc(10,stdout);
-  goto LAB_08048a77;
+    if (it_decr == 0) break;
+    it_decr = it_decr - 1;
+    char_buffer = *str;
+    //str++
+    str = str + (uint)byte_zero * -2 + 1;
+  } while (char_buffer != '\0');
+
+  //it_derc = 0xfffffff0
+  //~it_derc = 0x0000000f
+
+  //~it_decr - 1 = 0x0000000e
+  // ~it_decr - 1 = 15
+  //15 <= 0
+  if (~it_decr - 1 <= it_incr) 
+    goto GOTO_PUT_NEWLINE;
+
+  putchar((int)*(char *)(it_incr + *(int *)(argv + 4)) + it_incr);
+  goto GO_TO_LOGIC;
+
+GOTO_PUT_NEWLINE:
+  ret_fgets = fputc(10,stdout);
+  goto GO_TO_STOP;
 }
 ```
 
@@ -115,3 +248,28 @@ You should not reverse this
 ```
 
 This is caused by ptrace, it's an anti-debugger function more info [here](https://repository.root-me.org/Reverse%20Engineering/x86/Unix/FR%20-%20SSTIC%2006%20-%20Playing%20with%20ptrace.pdf)
+
+buffer_fgets
+```console
+level09@SnowCrash:~$ head --bytes 256 /proc/self/maps
+08048000-08050000 r-xp 00000000 07:00 18931      /usr/bin/head
+08050000-08051000 r--p 00007000 07:00 18931      /usr/bin/head
+08051000-08052000 rw-p 00008000 07:00 18931      /usr/bin/head
+08052000-08073000 rw-p 00000000 00:00 0          [heap]
+```
+
+```console
+level09@SnowCrash:~$ cat -e token 
+f4kmm6p|=M-^B^?pM-^BnM-^CM-^BDBM-^CDu{^?M-^LM-^I$
+```
+
+
+
+f4kmm6p|=M-^B^?pM-^BnM-^CM-^BDBM-^CDu{^?M-^LM-^I
+
+z{|}~�����������������������������
+
+```console
+level09@SnowCrash:~$ ./level09 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | cat -e
+z{|}~^?M-^@M-^AM-^BM-^CM-^DM-^EM-^FM-^GM-^HM-^IM-^JM-^KM-^LM-^MM-^NM-^OM-^PM-^QM-^RM-^SM-^TM-^UM-^VM-^WM-^XM-^YM-^ZM-^[M-^\$
+```
