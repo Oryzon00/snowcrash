@@ -1,4 +1,4 @@
-### Solutions
+## Solutions
 
 When you connect to the shell you have a new mail
 
@@ -34,6 +34,3 @@ wait until the cron job execute the process
 ```console
 ~$ cat /opt/openarenaserver/out
 ```
-
-
-

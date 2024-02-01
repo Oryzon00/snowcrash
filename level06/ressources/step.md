@@ -1,4 +1,4 @@
-### Solutions
+## Solutions
 
 First we have a php script
 ```php
@@ -42,5 +42,3 @@ WE ARE IN
 flag06
 ~$ getflag
 ```
-
-
