@@ -127,6 +127,7 @@ level09@SnowCrash:~$ cat token < ./level09 | od -c
 `f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211`
 `f 4 k m m 6 p | = 74 49 p 74 n 75 74 D B 75 D u { 49 86 83`
 `f 4 k m m 6 p | = 65 39 p 62 n 61 59 D B 57 D u { 27 63 59`
+`f 4 k m m 6 p | = A ' p > n = ; D B 9 D u { ESC ? ;`
 
 
 
