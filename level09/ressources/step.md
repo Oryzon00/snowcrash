@@ -280,14 +280,24 @@ level09@SnowCrash:~$ cat token < ./level09 | od -c
 0000032
 ```
 
-`f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211`
-`f 4 k m m 6 p | = 74 49 p 74 n 75 74 D B 75 D u { 49 86 83`
-`f 4 k m m 6 p | = 65 39 p 62 n 61 59 D B 57 D u { 27 63 59`
-`f 4 k m m 6 p | = A ' p > n = ; D B 9 D u { ESC ? ;`
+`f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211` // od -c
+`f 4 k m m 6 p | = 130 127 p 130 n 131 130 D B 131 D u { 127 140 137` // octale to decimal
+`f 4 k m m 6 p | = 121 117 p 118 n 117 115 D B 113 D u { 105 117 113` // decimal to ascii
+`f 4 k m m 6 p | = y u p v n u s D B q D u { i u q` // decimal to ascii
+
+
+
+`f 4 k m m 6 p | = 74 49 p 74 n 75 74 D B 75 D u { 49 86 83` // -128
+`f 4 k m m 6 p | = 65 39 p 62 n 61 59 D B 57 D u { 27 63 59` // offset -i
+`f 4 k m m 6 p | = A ' p > n = ; D B 9 D u { ESC ? ;` // ascii translation
 
 
 
 Replace X by character value
 ```
 f3iji1ju5XXeXaXX41X1afXXX
+```
+```
+f3iji1ju5yuevaus41q1afiuq
+
 ```
