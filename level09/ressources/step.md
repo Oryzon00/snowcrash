@@ -258,20 +258,7 @@ level09@SnowCrash:~$ head --bytes 256 /proc/self/maps
 08052000-08073000 rw-p 00000000 00:00 0          [heap]
 ```
 
-```console
-level09@SnowCrash:~$ cat -e token 
-f4kmm6p|=M-^B^?pM-^BnM-^CM-^BDBM-^CDu{^?M-^LM-^I$
-```
-
-
-
-f4kmm6p|=M-^B^?pM-^BnM-^CM-^BDBM-^CDu{^?M-^LM-^I
-
-z{|}~�����������������������������
-
-```console
-level09@SnowCrash:~$ ./level09 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz | cat -e
-z{|}~^?M-^@M-^AM-^BM-^CM-^DM-^EM-^FM-^GM-^HM-^IM-^JM-^KM-^LM-^MM-^NM-^OM-^PM-^QM-^RM-^SM-^TM-^UM-^VM-^WM-^XM-^YM-^ZM-^[M-^\$
+After a lot of digging we decided to stop trying to reverse engineer the executable and focus to encrypt the token in the file
 
 ```console
 level09@SnowCrash:~$ cat token < ./level09 | od -c
@@ -280,24 +267,15 @@ level09@SnowCrash:~$ cat token < ./level09 | od -c
 0000032
 ```
 
+od -c => octal dump
+
+```
 `f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211` // od -c
 `f 4 k m m 6 p | = 130 127 p 130 n 131 130 D B 131 D u { 127 140 137` // octale to decimal
 `f 4 k m m 6 p | = 121 117 p 118 n 117 115 D B 113 D u { 105 117 113` // decimal to ascii
 `f 4 k m m 6 p | = y u p v n u s D B q D u { i u q` // decimal to ascii
-
-
-
-`f 4 k m m 6 p | = 74 49 p 74 n 75 74 D B 75 D u { 49 86 83` // -128
-`f 4 k m m 6 p | = 65 39 p 62 n 61 59 D B 57 D u { 27 63 59` // offset -i
-`f 4 k m m 6 p | = A ' p > n = ; D B 9 D u { ESC ? ;` // ascii translation
-
-
-
-Replace X by character value
 ```
-f3iji1ju5XXeXaXX41X1afXXX
-```
+
 ```
 f3iji1ju5yuevaus41q1afiuq
-
 ```
