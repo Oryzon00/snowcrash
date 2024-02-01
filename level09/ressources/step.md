@@ -1,4 +1,4 @@
-### Solutions
+## Pistes
 
 We have an executable, so we decompile it using ghidra
 
@@ -258,7 +258,28 @@ level09@SnowCrash:~$ head --bytes 256 /proc/self/maps
 08052000-08073000 rw-p 00000000 00:00 0          [heap]
 ```
 
-After a lot of digging we decided to stop trying to reverse engineer the executable and focus to encrypt the token in the file
+## Solutions
+
+After a lot of digging we decided to stop trying to reverse engineer the executable and focus to decrypt the token in the file
+
+The executable is reading the token (which contains the password for user flag09) but is applying  
+a encryption logic
+
+Logic is for each character in the string, adding the value of the index to the ascii value of the character
+
+```console
+level09@SnowCrash:~$ ./level09 aaaa
+abcd
+```
+
+Lets reverse this encryption!
+
+```console
+level09@SnowCrash:~$ cat token < ./level09
+f4kmm6p|=�p�n��DB�Du{��
+```
+
+The output contains non writable ascii character, and character outside of the ascii table  
 
 ```console
 level09@SnowCrash:~$ cat token < ./level09 | od -c
@@ -267,15 +288,17 @@ level09@SnowCrash:~$ cat token < ./level09 | od -c
 0000032
 ```
 
-od -c => octal dump
+`od -c` => octal dump  
+Those non writable characters are represented by a octale value  with od -c
+
+
 
 ```
-`f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211` // od -c
-`f 4 k m m 6 p | = 130 127 p 130 n 131 130 D B 131 D u { 127 140 137` // octale to decimal
-`f 4 k m m 6 p | = 121 117 p 118 n 117 115 D B 113 D u { 105 117 113` // decimal to ascii
-`f 4 k m m 6 p | = y u p v n u s D B q D u { i u q` // decimal to ascii
-```
+`f 4 k m m 6 p | = 202 177 p 202 n 203 202 D B 203 D u { 177 214 211`	// output od -c
+`f 4 k m m 6 p | = 130 127 p 130 n 131 130 D B 131 D u { 127 140 137`	// octale to decimal
+`f 3 i j i 1 j u 6 121 117 e 118 a 117 115 4 B 113 1 a f 105 117 113`	// offset : -index
+`f 3 i j i 1 j u 5   y   u e   v a   u   s 4 1   q 1 a f   i   u   q` 	// asccii to char 
 
 ```
-f3iji1ju5yuevaus41q1afiuq
-```
+
+Final string is:`f3iji1ju5yuevaus41q1afiuq`
